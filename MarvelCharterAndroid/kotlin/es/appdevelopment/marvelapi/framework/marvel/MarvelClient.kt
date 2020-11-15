@@ -1,0 +1,29 @@
+package es.appdevelopment.marvelapi.framework.marvel
+
+import es.appdevelopment.marvelapi.framework.marvel.model.CharacterDataWrapper
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+interface MarvelClient {
+
+    @GET("/v1/public/characters")
+    suspend fun getCharacters(
+        @Query("apikey") apikey: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Query("ts") timeStamp: String,
+        @Query("hash") hash: String,
+        @Query("orderBy") orderBy: String
+    ): CharacterDataWrapper
+
+    @GET("/v1/public/characters/{characterId}")
+    suspend fun getCharacter(
+        @Path("characterId") characterId: String,
+        @Query("apikey") apikey: String,
+        @Query("ts") timeStamp: String,
+        @Query("hash") hash: String
+    ): CharacterDataWrapper
+
+}

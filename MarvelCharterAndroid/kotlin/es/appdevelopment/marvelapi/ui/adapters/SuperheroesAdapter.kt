@@ -1,0 +1,57 @@
+package es.appdevelopment.marvelapi.ui.adapters
+
+import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
+import es.appdevelopment.marvelapi.R
+import es.appdevelopment.marvelapi.ui.commons.inflate
+import es.appdevelopment.marvelapi.ui.model.MarvelSuperheroeForList
+import es.appdevelopment.marvelapi.ui.presenters.MainPresenter
+
+class SuperheroesAdapter(
+    private val presenter: MainPresenter,
+    val fetchNewPage: () -> Unit
+) : RecyclerView.Adapter<SuperheroesViewHolder>() {
+
+    private var distance: Int = 6
+    private var waitingForNextPage: Boolean = false
+
+    private var marvelSuperheroes: MutableList<MarvelSuperheroeForList> = ArrayList()
+
+    fun addAll(collection: Collection<MarvelSuperheroeForList>) {
+        setWaitingForNextPageFalse()
+        marvelSuperheroes.addAll(collection)
+        notifyDataSetChanged()
+    }
+
+    fun clean() {
+        setWaitingForNextPageFalse()
+        marvelSuperheroes.clear()
+        notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (!waitingForNextPage) {
+            if (position.plus(distance) >= itemCount) {
+                setWaitingForNextPageTrue()
+                fetchNewPage()
+            }
+        }
+
+        return super.getItemViewType(position)
+    }
+
+    private fun setWaitingForNextPageFalse() {
+        waitingForNextPage = false
+    }
+
+    private fun setWaitingForNextPageTrue() {
+        waitingForNextPage = true
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuperheroesViewHolder =
+        SuperheroesViewHolder(parent.inflate(R.layout.superheroe_item), presenter)
+
+    override fun onBindViewHolder(holder: SuperheroesViewHolder, position: Int) = holder.bind(marvelSuperheroes[position])
+
+    override fun getItemCount(): Int = marvelSuperheroes.size
+}

@@ -4,7 +4,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="es.appdevelopment.marvelapi.ui.MainActivity">
+                tools:context="com.iliaberlana.marvelapi.ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/superheroes_recyclerview"
