@@ -1,4 +1,4 @@
-package com.iliaberlana.marvelapi.framework.prefs
+package es.appdevelopment.marvelapi.framework.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
